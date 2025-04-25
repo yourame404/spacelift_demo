@@ -13,8 +13,8 @@ resource "tls_private_key" "demo_key" {
 }
 
 // Create AWS key pair
-resource "aws_key_pair" "demo_keypairr" {
-  key_name   = "demo-keypairr"
+resource "aws_key_pair" "demo_keypair" {
+  key_name   = "demo-keypair"
   public_key = tls_private_key.demo_key.public_key_openssh
 
   provisioner "local-exec" {
