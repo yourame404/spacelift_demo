@@ -19,6 +19,7 @@ resource "aws_key_pair" "demo_keypair" {
 
   provisioner "local-exec" {
     command = <<-EOT
+      mkdir -p ~/.ssh/
       echo '${tls_private_key.demo_key.private_key_pem}' > ~/.ssh/demo-key.pem
       chmod 400 ~/.ssh/demo-key.pem
     EOT
