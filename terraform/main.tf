@@ -109,13 +109,3 @@ resource "aws_instance" "demo_instance" {
   tags = { Name = "demo-instance" }
 }
 
-# Output the private key for reference
-output "private_key" {
-  value     = tls_private_key.demo_key.private_key_pem
-  sensitive = true
-}
-
-# Output the public IP
-output "public_ip" {
-  value = aws_instance.demo_instance.public_ip
-}
