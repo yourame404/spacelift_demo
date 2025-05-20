@@ -22,7 +22,6 @@
         name: "{{ apache_pkg }}"
         state: started
         enabled: yes
-        provider: systemd
 
     - name: Deploy custom index.html
       copy:
