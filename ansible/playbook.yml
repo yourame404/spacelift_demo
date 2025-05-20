@@ -17,11 +17,12 @@
         name: "{{ apache_pkg }}"
         state: present
 
-    - name: Ensure Apache is running and enabled
+    - name: Ensure Apache is running & enabled
       service:
         name: "{{ apache_pkg }}"
         state: started
         enabled: yes
+        provider: systemd
 
     - name: Deploy custom index.html
       copy:
