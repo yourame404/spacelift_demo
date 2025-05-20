@@ -1,27 +1,31 @@
 ---
-- name: Configure Apache on EC2
+- name: Configure Apache on Ubuntu EC2
   hosts: all
   become: yes
-  
+  vars:
+    apache_pkg: apache2
+    web_root: /var/www/html
+
   tasks:
-    - name: Update apt cache
+    - name: Update APT cache
       apt:
         update_cache: yes
         cache_valid_time: 3600
 
-    - name: Install Apache
+    - name: Install Apache package
       apt:
-        name: apache2
+        name: "{{ apache_pkg }}"
         state: present
 
-    - name: Start and enable Apache
+    - name: Ensure Apache is running and enabled
       service:
-        name: apache2
+        name: "{{ apache_pkg }}"
         state: started
         enabled: yes
 
-    - name: Create custom index.html
+    - name: Deploy custom index.html
       copy:
+        dest: "{{ web_root }}/index.html"
         content: |
           <!DOCTYPE html>
           <html>
@@ -30,4 +34,10 @@
             <p>Deployed via Spacelift</p>
           </body>
           </html>
-        dest: /var/www/html/index.html
+      notify: Reload Apache
+
+  handlers:
+    - name: Reload Apache
+      service:
+        name: "{{ apache_pkg }}"
+        state: reloaded
