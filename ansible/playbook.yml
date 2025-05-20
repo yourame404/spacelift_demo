@@ -22,6 +22,7 @@
         name: "{{ apache_pkg }}"
         state: started
         enabled: yes
+      when: not ansible_check_mode  # Skip this task when in check mode
 
     - name: Deploy custom index.html
       copy:
@@ -41,3 +42,4 @@
       service:
         name: "{{ apache_pkg }}"
         state: reloaded
+      when: not ansible_check_mode  # Also skip the handler when in check mode
