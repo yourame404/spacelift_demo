@@ -1,9 +1,10 @@
+---
 plugin: amazon.aws.aws_ec2
 regions:
   - us-west-2
 filters:
-  tag:Name: "demo-instance"
-  instance-state-name: "running"
+  tag:Name: demo-instance
+  instance-state-name: running
 keyed_groups:
   - key: tags.Name
     prefix: tag_Name
