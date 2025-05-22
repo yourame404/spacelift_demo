@@ -2,5 +2,5 @@ plugin: aws_ec2
 regions:
   - us-west-2
 filters:
-  tag:Name: demo-instance
+  tag:Env: demo-instance
   instance-state-name: running
