@@ -1,6 +1,5 @@
-output "private_key" {
-  value     = tls_private_key.demo_key.private_key_pem
-  sensitive = true
+output "key_ssm_param" {
+  value = aws_ssm_parameter.private_key.name
 }
 
 output "public_ip" {
