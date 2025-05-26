@@ -1,4 +1,3 @@
-```markdown
 # 🚀 Terraform + Ansible on AWS (via Spacelift)
 
 This demo shows how to provision AWS infrastructure with Terraform and configure it using Ansible, automated through Spacelift.
