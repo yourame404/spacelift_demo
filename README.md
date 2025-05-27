@@ -2,11 +2,11 @@
 
 This demo shows how to provision AWS infrastructure with Terraform and configure it using Ansible, automated through Spacelift.
 
-## 🧱 Stack
+## 🎥 Video Walkthrough
 
-- Terraform: Creates VPC, subnet, EC2 instance
-- Ansible: Installs Apache, deploys index.html
-- Spacelift: Orchestrates and automates infra workflows
+[![Terraform + Ansible on AWS via Spacelift](https://img.youtube.com/vi/geSwD6M1pQs/0.jpg)](https://youtu.be/geSwD6M1pQs)
+
+Watch the demo on YouTube: [Terraform + Ansible on AWS via Spacelift](https://youtu.be/geSwD6M1pQs)
 
 ## 📚 References
 

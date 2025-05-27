@@ -18,6 +18,7 @@ resource "aws_ssm_parameter" "private_key" {
   description = "Private SSH key for EC2 demo"
   type        = "SecureString"
   value       = tls_private_key.demo_key.private_key_pem
+
   tags = {
     environment = "demo"
   }
@@ -34,13 +35,19 @@ resource "aws_vpc" "demo_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
-  tags = { Name = "demo-vpc" }
+
+  tags = {
+    Name = "demo-vpc"
+  }
 }
 
 # Internet Gateway
 resource "aws_internet_gateway" "demo_igw" {
   vpc_id = aws_vpc.demo_vpc.id
-  tags = { Name = "demo-igw" }
+
+  tags = {
+    Name = "demo-igw"
+  }
 }
 
 # Route Table
@@ -52,7 +59,9 @@ resource "aws_route_table" "demo_rt" {
     gateway_id = aws_internet_gateway.demo_igw.id
   }
 
-  tags = { Name = "demo-rt" }
+  tags = {
+    Name = "demo-rt"
+  }
 }
 
 # Subnet
@@ -61,7 +70,10 @@ resource "aws_subnet" "demo_subnet" {
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "us-west-2a"
   map_public_ip_on_launch = true
-  tags = { Name = "demo-subnet" }
+
+  tags = {
+    Name = "demo-subnet"
+  }
 }
 
 # Route Table Association
@@ -99,21 +111,38 @@ resource "aws_security_group" "demo_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = { Name = "demo-sg" }
+  tags = {
+    Name = "demo-sg"
+  }
 }
 
 # EC2 Instance
 resource "aws_instance" "demo_instance" {
-  ami                         = "ami-03f65b8614a860c29"
-  instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.demo_subnet.id
-  key_name                    = aws_key_pair.demo_keypair.key_name
-  vpc_security_group_ids      = [aws_security_group.demo_sg.id]
-  user_data                   = <<-EOF
-                #!/bin/bash
-                apt-get update
-                apt-get install -y python3 python3-pip python3-venv
-              EOF
+  ami                    = "ami-03f65b8614a860c29" // Replace with a valid AMI ID for your region
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.demo_subnet.id
+  key_name               = aws_key_pair.demo_keypair.key_name
+  vpc_security_group_ids = [aws_security_group.demo_sg.id]
 
-  tags = { Name = "demo-instance" }
+  user_data = <<-EOF
+    #!/bin/bash
+    apt-get update
+    apt-get install -y python3 python3-pip python3-venv
+  EOF
+
+  tags = {
+    Name = "demo-instance"
+  }
+}
+
+# Variables
+variable "aws_region" {
+  description = "AWS region to deploy resources"
+  type        = string
+}
+
+# Outputs
+output "instance_public_ip" {
+  description = "Public IP of the EC2 instance"
+  value       = aws_instance.demo_instance.public_ip
 }
